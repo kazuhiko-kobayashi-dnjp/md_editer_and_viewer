@@ -6,6 +6,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 import { EditorView } from '@codemirror/view'
 import type { ReactCodeMirrorRef } from '@uiw/react-codemirror'
+import MermaidBlock from './MermaidBlock'
 import 'highlight.js/styles/github.css'
 import './App.css'
 
@@ -43,6 +44,31 @@ console.log(greet('World'))
 [GitHub](https://github.com)
 
 > 引用テキストはこのように表示されます。
+
+## フローチャート
+
+\`\`\`mermaid
+flowchart TD
+    A[開始] --> B{条件分岐}
+    B -->|Yes| C[処理A]
+    B -->|No| D[処理B]
+    C --> E[終了]
+    D --> E
+\`\`\`
+
+## シーケンス図
+
+\`\`\`mermaid
+sequenceDiagram
+    participant ユーザー
+    participant サーバー
+    participant DB
+
+    ユーザー->>サーバー: ログインリクエスト
+    サーバー->>DB: ユーザー検索
+    DB-->>サーバー: ユーザー情報
+    サーバー-->>ユーザー: 認証トークン
+\`\`\`
 `
 
 // ブロック要素に data-line を付与する remark プラグイン
@@ -273,6 +299,14 @@ export default function App() {
           <div className="markdown-body" ref={previewRef} onScroll={onPreviewScroll}>
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkAddLineNumbers]}
+              components={{
+                code({ className, children }) {
+                  const lang = /language-(\w+)/.exec(className ?? '')?.[1]
+                  const code = String(children).replace(/\n$/, '')
+                  if (lang === 'mermaid') return <MermaidBlock code={code} />
+                  return <code className={className}>{children}</code>
+                },
+              }}
             >
               {content}
             </ReactMarkdown>

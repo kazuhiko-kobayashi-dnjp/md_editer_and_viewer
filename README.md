@@ -42,6 +42,28 @@ flowchart TD
 
 ---
 
+## Word → Markdown 変換 CLI
+
+`tools/word2md.py` を使うとローカルで高精度変換できます（pandocベース）。
+
+```bash
+# pandoc のインストール（初回のみ）
+wget https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-amd64.tar.gz -O /tmp/pandoc.tar.gz
+tar -xzf /tmp/pandoc.tar.gz -C /tmp
+mkdir -p ~/.local/bin && cp /tmp/pandoc-3.6.4/bin/pandoc ~/.local/bin/
+
+# 変換
+python3 tools/word2md.py 仕様書.docx
+python3 tools/word2md.py 仕様書.docx -o output.md --image-dir images/
+python3 tools/word2md.py 仕様書.docx --embed-images   # 画像をbase64で埋め込む
+```
+
+- 画像（PNG/JPEG/GIF）はファイルとして抽出
+- EMF（Windowsベクター図）はLibreOffice があれば PNG に自動変換
+- `--embed-images` で Markdown 単体ファイルとして完結
+
+---
+
 ## 開発者向け
 
 ```bash

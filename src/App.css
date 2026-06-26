@@ -36,32 +36,6 @@ html, body, #root {
   flex-shrink: 0;
 }
 
-.mode-tabs {
-  display: flex;
-  gap: 0;
-  margin-right: 4px;
-}
-
-.mode-tab {
-  background: #3a3a3a;
-  color: #aaa;
-  border: 1px solid #555;
-  padding: 4px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background 0.1s;
-  border-right: none;
-}
-
-.mode-tab:first-child { border-radius: 4px 0 0 4px; }
-.mode-tab:last-child  { border-radius: 0 4px 4px 0; border-right: 1px solid #555; }
-.mode-tab:hover       { background: #4a4a4a; color: #fff; }
-
-.mode-tab-active {
-  background: #4a9eff;
-  border-color: #4a9eff;
-  color: #fff;
-}
 
 .toolbar-btn {
   background: #3a3a3a;

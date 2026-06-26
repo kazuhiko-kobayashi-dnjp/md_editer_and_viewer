@@ -1,0 +1,186 @@
+.wtm-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── ツールバー ── */
+.wtm-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  height: 40px;
+  background: #1e1e1e;
+  color: #ccc;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.wtm-filename {
+  font-size: 12px;
+  color: #9cdcfe;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.wtm-warn-badge {
+  font-size: 11px;
+  color: #ffd700;
+  cursor: help;
+  white-space: nowrap;
+}
+
+.wtm-hint {
+  font-size: 11px;
+  color: #666;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbar-btn.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── Empty state ── */
+.wtm-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #999;
+  background: #fff;
+  font-size: 15px;
+}
+
+.wtm-empty-icon {
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+/* ── 3列ペイン ── */
+.wtm-panes {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.wtm-pane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.wtm-pane-header {
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.word-header {
+  background: #dde8fa;
+  color: #2b579a;
+  border-bottom: 2px solid #2b579a;
+}
+
+.editor-header {
+  background: #2d2d2d;
+  color: #999;
+  border-bottom: 2px solid #0e639c;
+}
+
+.preview-header {
+  background: #f0faf2;
+  color: #1b5e20;
+  border-bottom: 2px solid #2e7d32;
+}
+
+.wtm-divider {
+  width: 4px;
+  background: #ccc;
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.1s;
+}
+
+.wtm-divider:hover,
+.wtm-divider:active {
+  background: #4a9eff;
+}
+
+/* ── Word表示ペイン ── */
+.wtm-word-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  background: #fff;
+  font-family: 'Meiryo', 'Yu Gothic UI', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+
+.wtm-word-body h1 { font-size: 1.5em; font-weight: 700; color: #1a3a6c; border-bottom: 2px solid #2b579a; margin: 14px 0 6px; padding-bottom: 3px; }
+.wtm-word-body h2 { font-size: 1.25em; font-weight: 700; color: #2b579a; margin: 12px 0 5px; }
+.wtm-word-body h3 { font-size: 1.1em;  font-weight: 700; color: #333; margin: 10px 0 4px; }
+.wtm-word-body h4 { font-size: 1em;    font-weight: 700; color: #555; margin: 8px 0 3px; }
+.wtm-word-body p  { margin: 4px 0; }
+.wtm-word-body ul,
+.wtm-word-body ol { margin: 4px 0 4px 20px; }
+.wtm-word-body li { margin: 2px 0; }
+.wtm-word-body table { border-collapse: collapse; width: 100%; font-size: 12px; margin: 8px 0; }
+.wtm-word-body td,
+.wtm-word-body th  { border: 1px solid #bbb; padding: 4px 8px; vertical-align: top; word-break: break-word; }
+.wtm-word-body th  { background: #f0f4ff; font-weight: 700; }
+.wtm-word-body img { max-width: 100%; height: auto; display: block; margin: 8px 0; border: 1px solid #eee; }
+.wtm-word-body b,
+.wtm-word-body strong { font-weight: bold; }
+.wtm-word-body i,
+.wtm-word-body em { font-style: italic; }
+.wtm-word-body u { text-decoration: underline; }
+
+.wtm-word-body::-webkit-scrollbar { width: 7px; }
+.wtm-word-body::-webkit-scrollbar-track { background: #f5f5f5; }
+.wtm-word-body::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+/* ── Markdownエディタ ── */
+.wtm-editor-pane {
+  background: #1e1e1e;
+}
+
+.wtm-codemirror {
+  flex: 1;
+  overflow: hidden;
+}
+
+.wtm-codemirror .cm-editor {
+  height: 100%;
+  font-size: 13px;
+}
+
+.wtm-codemirror .cm-scroller {
+  overflow: auto;
+}
+
+/* ── Markdownプレビュー ── */
+.wtm-preview {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.wtm-preview::-webkit-scrollbar { width: 7px; }
+.wtm-preview::-webkit-scrollbar-track { background: #f5f5f5; }
+.wtm-preview::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }

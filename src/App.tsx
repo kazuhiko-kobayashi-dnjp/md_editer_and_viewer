@@ -7,6 +7,7 @@ import { languages } from '@codemirror/language-data'
 import { EditorView } from '@codemirror/view'
 import type { ReactCodeMirrorRef } from '@uiw/react-codemirror'
 import MermaidBlock from './MermaidBlock'
+import WordToMd from './WordToMd'
 import 'highlight.js/styles/github.css'
 import './App.css'
 
@@ -125,6 +126,7 @@ function scrollTopToLine(scrollTop: number, elements: LineElement[]): number {
 }
 
 export default function App() {
+  const [mode, setMode] = useState<'editor' | 'word2md'>('editor')
   const [content, setContent] = useState(INITIAL_CONTENT)
   const [dividerPos, setDividerPos] = useState(50)
   const [fileName, setFileName] = useState<string | null>(null)
@@ -273,46 +275,69 @@ export default function App() {
     >
       <header className="toolbar">
         <div className="toolbar-left">
-          <button className="toolbar-btn" onClick={openFile}>開く</button>
-          <button className="toolbar-btn" onClick={save}>保存</button>
-          <button className="toolbar-btn" onClick={saveAs}>名前を付けて保存</button>
+          <div className="mode-tabs">
+            <button
+              className={`mode-tab${mode === 'editor' ? ' mode-tab-active' : ''}`}
+              onClick={() => setMode('editor')}
+            >MD エディタ</button>
+            <button
+              className={`mode-tab${mode === 'word2md' ? ' mode-tab-active' : ''}`}
+              onClick={() => setMode('word2md')}
+            >Word → MD</button>
+          </div>
+          {mode === 'editor' && (
+            <>
+              <button className="toolbar-btn" onClick={openFile}>開く</button>
+              <button className="toolbar-btn" onClick={save}>保存</button>
+              <button className="toolbar-btn" onClick={saveAs}>名前を付けて保存</button>
+            </>
+          )}
         </div>
-        <span className="title">{titleLabel}</span>
-        <span className="char-count">{content.length} 文字</span>
+        {mode === 'editor' && (
+          <>
+            <span className="title">{titleLabel}</span>
+            <span className="char-count">{content.length} 文字</span>
+          </>
+        )}
       </header>
-      <div className="editor-area">
-        <div className="pane editor-pane" style={{ width: `${dividerPos}%` }}>
-          <div className="pane-header">編集</div>
-          <CodeMirror
-            ref={editorRef}
-            value={content}
-            height="100%"
-            extensions={extensions}
-            onChange={handleChange}
-            onScrollCapture={onEditorScroll}
-            className="codemirror-wrapper"
-          />
-        </div>
-        <div className="divider" onMouseDown={onMouseDown} />
-        <div className="pane preview-pane" style={{ width: `${100 - dividerPos}%` }}>
-          <div className="pane-header">プレビュー</div>
-          <div className="markdown-body" ref={previewRef} onScroll={onPreviewScroll}>
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm, remarkAddLineNumbers]}
-              components={{
-                code({ className, children }) {
-                  const lang = /language-(\w+)/.exec(className ?? '')?.[1]
-                  const code = String(children).replace(/\n$/, '')
-                  if (lang === 'mermaid') return <MermaidBlock code={code} />
-                  return <code className={className}>{children}</code>
-                },
-              }}
-            >
-              {content}
-            </ReactMarkdown>
+
+      {mode === 'word2md' ? (
+        <WordToMd />
+      ) : (
+        <div className="editor-area">
+          <div className="pane editor-pane" style={{ width: `${dividerPos}%` }}>
+            <div className="pane-header">編集</div>
+            <CodeMirror
+              ref={editorRef}
+              value={content}
+              height="100%"
+              extensions={extensions}
+              onChange={handleChange}
+              onScrollCapture={onEditorScroll}
+              className="codemirror-wrapper"
+            />
+          </div>
+          <div className="divider" onMouseDown={onMouseDown} />
+          <div className="pane preview-pane" style={{ width: `${100 - dividerPos}%` }}>
+            <div className="pane-header">プレビュー</div>
+            <div className="markdown-body" ref={previewRef} onScroll={onPreviewScroll}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkAddLineNumbers]}
+                components={{
+                  code({ className, children }) {
+                    const lang = /language-(\w+)/.exec(className ?? '')?.[1]
+                    const code = String(children).replace(/\n$/, '')
+                    if (lang === 'mermaid') return <MermaidBlock code={code} />
+                    return <code className={className}>{children}</code>
+                  },
+                }}
+              >
+                {content}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
